@@ -1,0 +1,33 @@
+#!/bin/sh
+
+echo "Программа создания образа CD-диска"
+echo "Разработчик: $AUTHOR"
+echo "Описание: $DESCRIPTION"
+
+
+while true; do
+
+    read -p "Введите путь к каталогу с файлами: " source_dir
+
+
+    read -p "Введите имя будущего образа CD-диска: " image_name
+
+
+    if [ ! -d "$source_dir" ]; then
+        echo "Ошибка! Директория не существует."
+    else
+
+        if mkisofs -r -o "$image_name.iso" "$source_dir"; then
+            echo "Образ CD-диска создан как $image_name.iso"
+        else
+            echo "Ошибка при создании образа CD-диска."
+        fi
+    fi
+    
+    read -p "Хотите продолжить? (y/n): " continue
+    if [ "$continue" != "y" ]; then
+        break
+    fi
+done
+
+exit 0
